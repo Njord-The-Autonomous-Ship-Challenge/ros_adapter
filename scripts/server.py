@@ -134,10 +134,10 @@ class SensorStreaming(sensor_streaming_pb2_grpc.SensorStreamingServicer):
 
 def serve(camera_pubs, lidar_pub, radar_pub):
     # Linux Desktop
-    ip = '127.0.0.1'
+    #ip = '127.0.0.1'
 
     # Desktop VM
-    #ip = '192.168.0.116'
+    ip = '192.168.146.128'
 
     # Docker Container
     #ip = '172.18.0.22'
@@ -153,18 +153,18 @@ def serve(camera_pubs, lidar_pub, radar_pub):
 
 if __name__ == '__main__':
 
-    cam_ids = ["F", "FL", "FR", "RL", "RR"]
+    cam_ids = ["Front", "Back", "Starboard", "Port"]
     camera_pubs = dict()
     for cam_id in cam_ids:
-        camera_pubs[cam_id] = rospy.Publisher('EO/' + cam_id + '/image_raw',
+        camera_pubs[cam_id] = rospy.Publisher('optical/' + cam_id + '/image_raw',
                                               Image, queue_size=10)
 
-    lidar_pub = rospy.Publisher('velodyne_points', PointCloud2, queue_size=10)
+    lidar_pub = rospy.Publisher('lidar', PointCloud2, queue_size=10)
 
     # TODO: Change the message type to be published
     radar_pub = rospy.Publisher('radar/driver/spokes', 
                                 Image, 
                                 queue_size=10)
 
-    rospy.init_node('syntetic_data', anonymous=True)
+    rospy.init_node('synthetic_data', anonymous=True)
     serve(camera_pubs, lidar_pub, radar_pub)
