@@ -148,14 +148,6 @@ class SensorStreaming(sensor_streaming_pb2_grpc.SensorStreamingServicer):
         return sensor_streaming_pb2.RadarStreamingResponse(success=True)
 
 
-<<<<<<< HEAD
-def serve(camera_pubs, lidar_pub, radar_pub):
-    # Linux Desktop
-    #ip = '127.0.0.1'
-
-    # Desktop VM
-    ip = '192.168.146.128'
-=======
 class Navigation(navigation_pb2_grpc.NavigationServicer):
     def __init__(self, pose_pub, twist_pub, tf_pub):
         self.pose_pub = pose_pub
@@ -208,7 +200,6 @@ class Navigation(navigation_pb2_grpc.NavigationServicer):
                 angular=angular_vel
             )
         )
->>>>>>> upstream/master
 
         twist_pub.publish(twist_msg)
 
@@ -248,38 +239,26 @@ def serve(server_ip, server_port, camera_pubs,
 
 if __name__ == '__main__':
 
-<<<<<<< HEAD
-    cam_ids = ["Front", "Back", "Starboard", "Port"]
-=======
     rospy.init_node('syntetic_data', anonymous=True)
     server_params = rospy.get_param('~')
     server_ip = server_params["server_ip"]
     server_port = server_params["server_port"]
 
     cam_ids = ["F", "FL", "FR", "RL", "RR"]
->>>>>>> upstream/master
     camera_pubs = dict()
     for cam_id in cam_ids:
-        camera_pubs[cam_id] = rospy.Publisher('optical/' + cam_id + '/image_raw',
+        camera_pubs[cam_id] = rospy.Publisher('EO/' + cam_id + '/image_raw',
                                               Image, queue_size=10)
 
-<<<<<<< HEAD
-    lidar_pub = rospy.Publisher('lidar', PointCloud2, queue_size=10)
-=======
     lidar_pub = rospy.Publisher('lidar/driver/velodyne_points',
                                 PointCloud2,
                                 queue_size=10)
->>>>>>> upstream/master
 
     # TODO: Change the message type to be published
     radar_pub = rospy.Publisher('radar/driver/spokes',
                                 RadarSpoke,
                                 queue_size=10)
 
-<<<<<<< HEAD
-    rospy.init_node('synthetic_data', anonymous=True)
-    serve(camera_pubs, lidar_pub, radar_pub)
-=======
     clock_pub = rospy.Publisher('clock', Clock, queue_size=10)
 
     pose_pub = rospy.Publisher('milliampere/pose', geomsgs.PoseStamped, queue_size=10)
@@ -291,4 +270,3 @@ if __name__ == '__main__':
     serve(server_ip, server_port, camera_pubs,
           lidar_pub, radar_pub, clock_pub,
           pose_pub, twist_pub, tf_pub)
->>>>>>> upstream/master
