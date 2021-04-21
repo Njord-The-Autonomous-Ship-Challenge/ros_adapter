@@ -244,13 +244,13 @@ if __name__ == '__main__':
     server_ip = server_params["server_ip"]
     server_port = server_params["server_port"]
 
-    cam_ids = ["F", "FL", "FR", "RL", "RR"]
+    cam_ids = ["Front", "Back", "Starboard", "Port"]
     camera_pubs = dict()
     for cam_id in cam_ids:
-        camera_pubs[cam_id] = rospy.Publisher('EO/' + cam_id + '/image_raw',
+        camera_pubs[cam_id] = rospy.Publisher('optical/' + cam_id + '/image_raw',
                                               Image, queue_size=10)
 
-    lidar_pub = rospy.Publisher('lidar/driver/velodyne_points',
+    lidar_pub = rospy.Publisher('lidar',
                                 PointCloud2,
                                 queue_size=10)
 
@@ -261,9 +261,9 @@ if __name__ == '__main__':
 
     clock_pub = rospy.Publisher('clock', Clock, queue_size=10)
 
-    pose_pub = rospy.Publisher('milliampere/pose', geomsgs.PoseStamped, queue_size=10)
+    pose_pub = rospy.Publisher('nav/pose', geomsgs.PoseStamped, queue_size=10)
 
-    twist_pub = rospy.Publisher('milliampere/twist', geomsgs.TwistStamped, queue_size=10)
+    twist_pub = rospy.Publisher('nav/twist', geomsgs.TwistStamped, queue_size=10)
 
     tf_pub = tf2_ros.TransformBroadcaster()
 
